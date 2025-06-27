@@ -1,15 +1,18 @@
+import streamlit as st
 import joblib
 import re
 import string
 import nltk
 from nltk.corpus import stopwords
 
+# Download stopwords (if not already present)
 nltk.download('stopwords')
 
-# Load model and vectorizer saved from above training script
+# Load model and vectorizer (make sure these files are in the same folder)
 model = joblib.load('hate_speech_model.pkl')
 vectorizer = joblib.load('vectorizer.pkl')
 
+# Setup stopwords for preprocessing
 stop_words = set(stopwords.words('english'))
 
 def clean_text(text):
@@ -20,20 +23,13 @@ def clean_text(text):
     words = text.split()
     return ' '.join([word for word in words if word not in stop_words])
 
-import streamlit as st
+st.title("🛡️ Hate Speech Detection App")
 
-st.title("Hate Speech Detection")
-
-user_input = st.text_area("Enter text to classify")
+user_input = st.text_area("Enter text to classify:", height=150)
 
 if st.button("Predict"):
-    clean_input = clean_text(user_input)
-    vect_input = vectorizer.transform([clean_input])
-    prediction = model.predict(vect_input)[0]
-    
-    if prediction == 1:
-        st.error("⚠️ Hate Speech Detected!")
-    else:
-        st.success("✅ No Hate Speech Detected!")
+    if not user_input.strip():
+        st.warning("P
+
 
 
