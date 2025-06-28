@@ -31,7 +31,9 @@ if st.button("Detect"):
     cleaned_input = clean_text(user_input)
     vector = vectorizer.transform([cleaned_input])
     proba = model.predict_proba(vector)[0]
-    prediction = 1 if proba[1] > 0.7 else 0  # <- Custom threshold
+    threshold = st.slider("Set hate speech threshold", 0.0, 1.0, 0.7)
+    prediction = 1 if proba[1] > threshold else 0
+
 
     st.write(f"**Processed text:** {cleaned_input}")
     
