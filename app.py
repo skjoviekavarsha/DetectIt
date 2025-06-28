@@ -25,15 +25,15 @@ def clean_text(text):
 st.title("🛡️ Hate Speech Detection App")
 st.write("Enter text to classify:")
 
-user_input = st.text_area("")
+threshold = st.slider("Set hate speech threshold", 0.0, 1.0, 0.7)
+
+user_input = st.text_area("Enter text to classify:")
 
 if st.button("Detect"):
     cleaned_input = clean_text(user_input)
     vector = vectorizer.transform([cleaned_input])
     proba = model.predict_proba(vector)[0]
-    threshold = st.slider("Set hate speech threshold", 0.0, 1.0, 0.7)
-    prediction = 1 if proba[1] > threshold else 0
-
+    prediction = 1 if proba[1] > threshold else 0  # Use slider value here
 
     st.write(f"**Processed text:** {cleaned_input}")
     
@@ -43,6 +43,3 @@ if st.button("Detect"):
         st.success("✅ Not Hate Speech")
 
     st.write(f"**Probabilities:** Not Hate Speech: `{proba[0]:.3f}`, Hate Speech: `{proba[1]:.3f}`")
-
-
-
