@@ -18,8 +18,8 @@ def clean_text(text):
     text = re.sub(r"http\S+|www\S+", '', text)
     text = re.sub(r'@\w+|#\w+', '', text)
     text = text.translate(str.maketrans('', '', string.punctuation))
-    words = text.split()
-    return ' '.join([word for word in words if word not in stop_words])
+    return text
+
 
 # Streamlit App UI
 st.title("🛡️ Hate Speech Detection App")
